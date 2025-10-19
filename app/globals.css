@@ -1,26 +1,161 @@
+/* app/globals.css — Tailwind v4 minimal */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Base layout */
+html, body {
+  height: 100%;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* --- Microtype & selection --- */
+.sc-body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-kerning: normal;
+  font-feature-settings: "liga" 1, "kern" 1, "onum" 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+::selection {
+  background: #e5e7eb; /* neutral-200 */
+  color: #111827;      /* neutral-900 */
+}
+
+/* --- Respect reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- Media scaling --- */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
 }
+
+/* --- Accessible focus --- */
+:focus-visible {
+  outline: 2px solid #0a0a0a;
+  outline-offset: 2px;
+}
+
+/* --- Link styling --- */
+a {
+  text-underline-offset: 2px;
+  color: inherit;
+  text-decoration-color: rgba(17, 24, 39, 0.4);
+}
+a:hover {
+  text-decoration-color: rgba(17, 24, 39, 0.9);
+  text-decoration: underline;
+}
+
+/* --- Smooth scroll --- */
+html { scroll-behavior: smooth; }
+
+/* --- Optional dark mode scaffold (base) --- */
+:root { color-scheme: light; }
+.dark { color-scheme: dark; }
+.dark body { background: #0a0a0a; color: #fafafa; }
+
+/* === THEME TOKENS (Light / Dark / Mirrorwave) === */
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #6b7280;
+  --card: rgba(255, 255, 255, 0.70);
+  --ring: #0a0a0a;
+  color-scheme: light;
+}
+.dark {
+  --bg: #0a0a0a;
+  --fg: #fafafa;
+  --muted: #9ca3af;
+  --card: rgba(20, 20, 20, 0.60);
+  --ring: #fafafa;
+  color-scheme: dark;
+}
+
+/* === Mirrorwave: vivid plasma palette (enhanced aura) === */
+.mirrorwave {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #6b7280;
+  --card: rgba(255, 255, 255, 0.72);
+  --ring: #0a0a0a;
+  color-scheme: light;
+
+  /* Accents */
+  --mw-pink:   #f472b6; /* rose */
+  --mw-violet: #a78bfa; /* violet */
+  --mw-blue:   #60a5fa; /* sky */
+
+  /* Pronounced plasma gradient for Halo */
+  --mw-grad:
+    radial-gradient(1200px 900px at 15% -10%, color-mix(in oklab, var(--mw-violet), transparent 70%) 0%, transparent 60%),
+    radial-gradient(1000px 700px at 110%   5%, color-mix(in oklab, var(--mw-blue),   transparent 72%) 0%, transparent 62%),
+    radial-gradient( 900px 600px at 50%  115%, color-mix(in oklab, var(--mw-pink),   transparent 75%) 0%, transparent 65%);
+}
+
+/* Consume theme tokens */
+body { background: var(--bg); color: var(--fg); }
+.border, .ring-1 { border-color: color-mix(in oklab, var(--fg), transparent 85%); }
+
+/* === Glass & Bloom === */
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in oklab, var(--fg), transparent 90%);
+  box-shadow: 0 8px 30px color-mix(in oklab, var(--fg), transparent 94%);
+}
+.bloom {
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--fg), transparent 90%),
+    0 6px 24px color-mix(in oklab, var(--fg), transparent 94%);
+}
+
+/* Softer neo-glass helpers */
+.ring-soft    { box-shadow: 0 0 0 1px color-mix(in oklab, var(--fg), transparent 88%); }
+.shadow-soft  { box-shadow: 0 20px 60px color-mix(in oklab, var(--fg), transparent 94%); }
+
+/* === Cursor Glow === */
+.cursor-glow {
+  position: fixed;
+  pointer-events: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, #00000022, transparent 70%);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply;
+  z-index: 40;
+}
+.dark .cursor-glow {
+  background: radial-gradient(closest-side, #ffffff22, transparent 70%);
+  mix-blend-mode: screen;
+}
+
+/* === Section palettes (gentle tints) === */
+.section-healing { background: linear-gradient(180deg, #f5f3ff40, transparent 35%); }
+.section-music   { background: linear-gradient(180deg, #eff6ff40, transparent 35%); }
+.section-books   { background: linear-gradient(180deg, #fdf2f840, transparent 35%); }
+.section-follow  { background: linear-gradient(180deg, #ecfeff40, transparent 35%); }
+
+/* === Typographic accents (optional, lovely) === */
+.h-gradient {
+  background: linear-gradient(90deg, #111 0%, #444 50%, #111 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.mw-gold {
+  background: linear-gradient(90deg, #b58b2a, #e3c166, #b58b2a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.01em;
+}
+h1, h2 { letter-spacing: -0.01em; }
